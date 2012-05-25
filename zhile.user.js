@@ -89,6 +89,21 @@ function main() {
             } else {
                 window.scrollTo(0, 0);
             }
+        },
+
+        changeTheme = function (theme) {
+            if (theme === 'day') {
+                $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHIday');
+                localStorage.setItem('_ZHI_setting_theme', 'ZHIday');
+            }
+            else if (theme === 'night') {
+                $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHInight');
+                localStorage.setItem('_ZHI_setting_theme', 'ZHInight');
+            }
+            else if (theme === 'origin') {
+                $contents.removeClass('ZHIday').removeClass('ZHInight');
+                localStorage.setItem('_ZHI_setting_theme', '');
+            }
         };
 
 
@@ -96,17 +111,19 @@ function main() {
 
         $body.prepend(bar);
 
+        $contents.addClass(localStorage.getItem('_ZHI_setting_theme'))
+
         $body.delegate('#ZHI-prev', 'click', function() {
             prev();
         });
         $body.delegate('#ZHI-day', 'click', function() {
-            $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHIday');
+            changeTheme('day');
         });
         $body.delegate('#ZHI-night', 'click', function() {
-            $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHInight');
+            changeTheme('night');
         });
         $body.delegate('#ZHI-origin', 'click', function() {
-            $contents.removeClass('ZHIday').removeClass('ZHInight');
+            changeTheme('origin');
         });
         $body.delegate('#ZHI-next', 'click', function() {
             next();
@@ -128,13 +145,13 @@ function main() {
                     prev()
                     break
                 case 78:
-                    $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHInight')
+                    changeTheme('night')
                     break
                 case 68:
-                    $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHIday')
+                    changeTheme('day')
                     break
                 case 88:
-                    $contents.removeClass('ZHIday').removeClass('ZHInight')
+                    changeTheme('origin')
                     break
             }
 
