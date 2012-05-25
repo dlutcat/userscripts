@@ -32,28 +32,72 @@ function addJQuery(callback) {
     document.head.appendChild(script);
 }
 
+
 function main() {
 
     var bar = [ '<div id="ZHI">',
-                    '<span id="ZHI-prev" title="上一个">&and;</span>',
-                    '<span id="ZHI-day" title="白天模式">D</span>',
-                    '<span id="ZHI-night" title="夜间模式">N</span>',
-                    '<span id="ZHI-origin" title="恢复">X</span>',
-                    '<span id="ZHI-next" title="下一个">&or;</span>',
-                '</div>' ].join('');
+                    '<span id="ZHI-prev" title="上一个(J)">&and;</span>',
+                    '<span id="ZHI-day" title="白天模式(D)">D</span>',
+                    '<span id="ZHI-night" title="夜间模式(N)">N</span>',
+                    '<span id="ZHI-origin" title="恢复(X)">X</span>',
+                    '<span id="ZHI-next" title="下一个(K)">&or;</span>',
+                '</div>' ].join(''),
+
+        $body = $('body'),
+        $entries = $('.xpo'),
+        $contents = $('.xxkw.xof'),
+        count = $entries.length,
+        index = 0,
+        $curEntry,
+        $prevEntry,
+        $nextEntry
+
+        currentEntry = function ($entries) {
+            var $cur = false;
+            $entries.each(function() {
+                var $this = $(this),
+                    offsetTop = $this.offset().top,
+                    scrollY = window.scrollY;
+                if ( offsetTop - scrollY <= 0 && scrollY <= offsetTop + $this.height() ) {
+                    $cur = $this;
+                    return;
+                }
+            });
+            return $cur;
+        },
+
+        next = function () {
+            $curEntry = currentEntry($entries);
+            if ($curEntry === false) {
+                window.scrollTo(0, $entries.first().offset().top);
+                return;
+            }
+
+            $nextEntry = $curEntry.next('.xpo');
+            if ($nextEntry.length != 0) {
+                window.scrollTo(0, $nextEntry.offset().top);
+            } else {
+                window.scrollTo(0, $entries.first().offset().top);
+            }
+        },
+
+        prev = function () {
+            $curEntry = currentEntry($entries);
+            $prevEntry = $curEntry.prev('.xpo');
+            if ($prevEntry.length != 0) {
+                window.scrollTo(0, $prevEntry.offset().top);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        };
+
 
     try {
-        var $body = $('body'),
-            $entries = $('.xpo'),
-            $contents = $('.xxkw.xof'),
-            count = $entries.length,
-            index = 0;
-
 
         $body.prepend(bar);
 
         $body.delegate('#ZHI-prev', 'click', function() {
-
+            prev();
         });
         $body.delegate('#ZHI-day', 'click', function() {
             $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHIday');
@@ -65,6 +109,34 @@ function main() {
             $contents.removeClass('ZHIday').removeClass('ZHInight');
         });
         $body.delegate('#ZHI-next', 'click', function() {
+            next();
+        });
+
+        $(document).keydown(function(e) {
+            if(/input|textarea/.test(e.target.tagName.toLowerCase())){
+                if (e.keyCode === 27) {
+                    e.target.blur();
+                }
+                return;
+            }
+
+            switch (e.keyCode) {
+                case 74:
+                    next()
+                    break
+                case 75:
+                    prev()
+                    break
+                case 78:
+                    $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHInight')
+                    break
+                case 68:
+                    $contents.removeClass('ZHIday').removeClass('ZHInight').addClass('ZHIday')
+                    break
+                case 88:
+                    $contents.removeClass('ZHIday').removeClass('ZHInight')
+                    break
+            }
 
         });
         
