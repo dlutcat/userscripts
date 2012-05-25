@@ -2,8 +2,8 @@
 // @name           知了
 // @namespace      ZHI
 // @description    Beautify zhihu anwser.
-// @version        0.2
-// @author         dlutcat
+// @version        0.3
+// @author         dlutcat ( pat.inside@gmail.com )
 // @include        *.zhihu.com/question/*
 // ==/UserScript==
 
