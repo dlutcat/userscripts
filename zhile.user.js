@@ -113,7 +113,7 @@ function main() {
         });
 
         $(document).keydown(function(e) {
-            if(/input|textarea/.test(e.target.tagName.toLowerCase())){
+            if(/input|textarea/.test(e.target.tagName.toLowerCase()) || $(e.target).attr('contenteditable') === 'true'){
                 if (e.keyCode === 27) {
                     e.target.blur();
                 }
