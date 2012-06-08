@@ -2,7 +2,7 @@
 // @name           知了
 // @namespace      ZHI
 // @description    Beautify zhihu anwser.
-// @version        0.3
+// @version        0.4
 // @author         dlutcat ( pat.inside@gmail.com )
 // @include        *.zhihu.com/question/*
 // ==/UserScript==
@@ -44,13 +44,13 @@ function main() {
                 '</div>' ].join(''),
 
         $body = $('body'),
-        $entries = $('.xpo'),
-        $contents = $('.xxkw.xof'),
+        $entries = $('.xco'),
+        $contents = $('.xwkw.xnf'),
         count = $entries.length,
         index = 0,
         $curEntry,
         $prevEntry,
-        $nextEntry
+        $nextEntry,
 
         currentEntry = function ($entries) {
             var $cur = false;
@@ -73,7 +73,7 @@ function main() {
                 return;
             }
 
-            $nextEntry = $curEntry.next('.xpo');
+            $nextEntry = $curEntry.next('.xco');
             if ($nextEntry.length != 0) {
                 window.scrollTo(0, $nextEntry.offset().top);
             } else {
@@ -83,7 +83,7 @@ function main() {
 
         prev = function () {
             $curEntry = currentEntry($entries);
-            $prevEntry = $curEntry.prev('.xpo');
+            $prevEntry = $curEntry.prev('.xco');
             if ($prevEntry.length != 0) {
                 window.scrollTo(0, $prevEntry.offset().top);
             } else {
